@@ -1,0 +1,209 @@
+# depslib dependency file v1.0
+1463743403 source:c:\users\embwe226\datorgrafik\rotator.cpp
+	"Rotator.hpp"
+
+1463743403 c:\users\embwe226\datorgrafik\rotator.hpp
+	<GLFW/glfw3.h>
+	<cmath>
+
+1463743403 c:\users\embwe226\datorgrafik\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1463743404 source:c:\users\embwe226\datorgrafik\shader.cpp
+	"Shader.hpp"
+
+1463743403 c:\users\embwe226\datorgrafik\shader.hpp
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	<cstdio>
+
+1463743403 c:\users\embwe226\datorgrafik\utilities.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<GL/glext.h>
+
+1463743403 c:\users\embwe226\datorgrafik\gl\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1490371722 source:c:\users\embwe226\datorgrafik\texture.cpp
+	"Texture.hpp"
+
+1463743404 c:\users\embwe226\datorgrafik\texture.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cstring>
+	"Utilities.hpp"
+
+1461143306 source:c:\users\embwe226\datorgrafik\trianglesoup.cpp
+	"TriangleSoup.hpp"
+
+1457966703 c:\users\embwe226\datorgrafik\trianglesoup.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cmath>
+	<cstring>
+	"Utilities.hpp"
+
+1463743403 source:c:\users\embwe226\datorgrafik\utilities.cpp
+	"Utilities.hpp"
+
+1555334264 source:c:\users\embwe226\lab2\glprimer.cpp
+	<iostream>
+	<cmath>
+	<cstdio>
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	"Shader.hpp"
+
+1463743403 c:\users\embwe226\lab2\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1463743403 c:\users\embwe226\lab2\utilities.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<GL/glext.h>
+
+1463743403 c:\users\embwe226\lab2\gl\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1463743403 source:c:\users\embwe226\lab2\rotator.cpp
+	"Rotator.hpp"
+
+1463743403 c:\users\embwe226\lab2\rotator.hpp
+	<GLFW/glfw3.h>
+	<cmath>
+
+1463743404 source:c:\users\embwe226\lab2\shader.cpp
+	"Shader.hpp"
+
+1463743403 c:\users\embwe226\lab2\shader.hpp
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	<cstdio>
+
+1490371722 source:c:\users\embwe226\lab2\texture.cpp
+	"Texture.hpp"
+
+1463743404 c:\users\embwe226\lab2\texture.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cstring>
+	"Utilities.hpp"
+
+1461143306 source:c:\users\embwe226\lab2\trianglesoup.cpp
+	"TriangleSoup.hpp"
+
+1457966703 c:\users\embwe226\lab2\trianglesoup.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cmath>
+	<cstring>
+	"Utilities.hpp"
+
+1463743403 source:c:\users\embwe226\lab2\utilities.cpp
+	"Utilities.hpp"
+
+1555855259 source:c:\users\jenny\documents\skola\tnm046\lab2j\glprimer.cpp
+	<iostream>
+	<cmath>
+	<cstdio>
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	"Shader.hpp"
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\utilities.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<GL/glext.h>
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\gl\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\shader.hpp
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	<cstdio>
+
+1555840147 source:c:\users\jenny\documents\skola\tnm046\lab2j\rotator.cpp
+	"Rotator.hpp"
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\rotator.hpp
+	<GLFW/glfw3.h>
+	<cmath>
+
+1555840147 source:c:\users\jenny\documents\skola\tnm046\lab2j\shader.cpp
+	"Shader.hpp"
+
+1555840147 source:c:\users\jenny\documents\skola\tnm046\lab2j\texture.cpp
+	"Texture.hpp"
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\texture.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cstring>
+	"Utilities.hpp"
+
+1555840147 source:c:\users\jenny\documents\skola\tnm046\lab2j\trianglesoup.cpp
+	"TriangleSoup.hpp"
+
+1555840147 c:\users\jenny\documents\skola\tnm046\lab2j\trianglesoup.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cmath>
+	<cstring>
+	"Utilities.hpp"
+
+1555840147 source:c:\users\jenny\documents\skola\tnm046\lab2j\utilities.cpp
+	"Utilities.hpp"
+
