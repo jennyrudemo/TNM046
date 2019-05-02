@@ -45,6 +45,7 @@
 
 #include "Utilities.hpp"
 #include "Shader.hpp"
+#include "TriangleSoup.hpp"
 
 //FUNCTION DECLERATION//
 void createVertexBuffer(int location, int dimensions, const float *data, int datasize);
@@ -76,46 +77,124 @@ int main(int argc, char *argv[]) {
     int width, height;
 	float time;
 
-	GLint location_time, location_T, location_R, location_M;
+	GLint location_time, location_M;
 
     const GLFWvidmode *vidmode;  // GLFW struct to hold information about the display
 	GLFWwindow *window;    // GLFW struct to hold information about the window
 
 	Shader myShader;
+	//TriangleSoup myShape;
 
-    // Vertex coordinates (x,y,z) for three vertices
+	// Vertex coordinates (x,y,z) for three vertices
     GLuint vertexArrayID, vertexBufferID, indexBufferID, colorBufferIS;
+
+	/*LABB 2*/
+
+
     const GLfloat vertex_array_data[] = {
-        -1.0f, -1.0f, 1.0f,  // First vertex, xyz
-        1.0f, -1.0f, 1.0f,  // Second vertex, xyz
-        1.0f,  1.0f, 1.0f,   // Third vertex, xyz
-        -1.0f, 1.0f, 1.0f,   // Fourth vertex, xyz
-        1.0f, 1.0f, -1.0f,  // Fifth vertex, xyz
-        -1.0f, 1.0f, -1.0f,  // Sixth vertex, xyz
-        1.0f, -1.0f, -1.0f, // Seventh vertex, xyz
-        -1.0f, -1.0f, -1.0f // Eighth vertex, xyz
+        //First coordinate (0)
+        -1.0f, -1.0f, 1.0f,  // 0 side 1, tri 1
+        -1.0f, -1.0f, 1.0f, // 1 side 4, tri 7
+        -1.0f, -1.0f, 1.0f, //2 side 5, tri 9/10
+
+        //Second coordinate (1)
+        1.0f, -1.0f, 1.0f,  // 3 side 1, tri 1/2
+        1.0f, -1.0f, 1.0f,  //4 side 4, tri 8
+        1.0f, -1.0f, 1.0f,  //5 side 6, tri 11
+
+        //Third coordinate (2)
+        1.0f,  1.0f, 1.0f,   //6 side 1, tri 2
+        1.0f,  1.0f, 1.0f,  //7 side 2, tri 3/4
+        1.0f,  1.0f, 1.0f, //8 side 6, tri 11/12
+
+        //Fourth coordinate (3)
+        -1.0f, 1.0f, 1.0f,   // 9 side 1, tri 1/2
+        -1.0f, 1.0f, 1.0f,  //10 side 2, tri 3
+        -1.0f, 1.0f, 1.0f,  //11 side 5, tri 10
+
+        //Fifth coordinate (4)
+        1.0f, 1.0f, -1.0f,  // 12 side 2, tri 4
+        1.0f, 1.0f, -1.0f,  //13 side 3, tri 5/6
+        1.0f, 1.0f, -1.0f,  //14 side 6, tri 12
+
+        //Sixth coordinate (5)
+        -1.0f, 1.0f, -1.0f,  // 15 side 2, tri 3/4
+        -1.0f, 1.0f, -1.0f, //16 side 3, tri 5
+        -1.0f, 1.0f, -1.0f, //17 side 5, tri 9/10
+
+        //Seventh coordinate (6)
+        1.0f, -1.0f, -1.0f, // 18 side 3, tri 6
+        1.0f, -1.0f, -1.0f, //19 side 4, tri 7/8
+        1.0f, -1.0f, -1.0f, //20 side 6, tri 11/12
+
+        //Eighth coordinate (7)
+        -1.0f, -1.0f, -1.0f, // 21 side 3, tri 5/6
+        -1.0f, -1.0f, -1.0f, //22 side 4, tri 7
+        -1.0f, -1.0f, -1.0f //23 side 5, tri 9
     };
     const GLfloat color_array_data[] = {
-       1.0f, 0.0f, 0.0f,  // Red
-       0.0f, 1.0f, 0.0f,  // Green
-       0.0f, 0.0f, 1.0f,  // Blue
+       1.0f, 0.0f, 0.0f,  // Red - side 1
+       1.0f, 0.0f, 1.0f,    // Purple - side 4
+       0.0f, 1.0f, 1.0f,    // Teal - side 5
+
+       1.0f, 0.0f, 0.0f,  // Red - side 1
+       1.0f, 0.0f, 1.0f,    // Purple - side 4
+       0.0f, 1.0f, 0.0f,  // Green - side 6
+
+       1.0f, 0.0f, 0.0f,  // Red - side 1
+       0.0f, 0.0f, 1.0f,  // Blue - side 2
+       0.0f, 1.0f, 0.0f,  // Green - side 6
+
+       1.0f, 0.0f, 0.0f,  // Red - side 1
+       0.0f, 0.0f, 1.0f,  // Blue - side 2
+       0.0f, 1.0f, 1.0f,    // Teal - side 5
+
+       0.0f, 0.0f, 1.0f,  // Blue - side 2
+       1.0f, 1.0f, 0.0f,    //Brown? - side 3
+       0.0f, 1.0f, 0.0f,  // Green - side 6
+
+       0.0f, 0.0f, 1.0f,  // Blue - side 2
+       1.0f, 1.0f, 0.0f,    //Yellow - side 3
+       0.0f, 1.0f, 1.0f,    // Teal - side 5
+
+       1.0f, 1.0f, 0.0f,    //Yellow- side 3
+       1.0f, 0.0f, 1.0f,    // Purple - side 4
+       0.0f, 1.0f, 0.0f,  // Green - side 6
+
+       1.0f, 1.0f, 0.0f,    //Yellow - side 3
+       1.0f, 0.0f, 1.0f,    // Purple - side 4
+       0.0f, 1.0f, 1.0f    // Teal - side 5
+
     };
     const GLuint index_array_data[] = {
-        0,1,3,  // First triangle
-        1,2,3,  // Second triangle
-        2,5,3,  // Third triangle
-        2,4,5,  // Fourth triangle
-        4,7,5,  // Fifth triangle
-        4,6,7,  // Sixth triangle
-        0,7,6,  // Seventh triangle
-        0,6,1,  // Eighth triangle
-        0,5,7,  // Ninth triangle
-        0,3,5,  // Tenth triangle
-        1,6,2,  // Eleventh triangle
-        2,6,4   // Twelfth triangle
+        //First side
+        0,3,9,  // First triangle
+        3,6,9,  // Second triangle
+
+        //Second side
+        7,15,10,  // Third triangle
+        7,12,15,  // Fourth triangle
+
+        //Third side
+        13,21,16,  // Fifth triangle
+        13,18,21,  // Sixth triangle
+
+        //Fourth side
+        1,22,19,  // Seventh triangle
+        1,19,4,  // Eighth triangle
+
+        //Fifth side
+        2,17,23,  // Ninth triangle
+        2,11,17,  // Tenth triangle
+
+        //Sixth triangle
+        5,20,8,  // Eleventh triangle
+        8,20,14   // Twelfth triangle
 
 
     };
+
+
 
     /*Matrices*/
 
@@ -159,8 +238,14 @@ int main(int argc, char *argv[]) {
     Utilities::loadExtensions();
 
     myShader.createShader("vertex.glsl", "fragment.glsl");
+
+    //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
+
+    /*LABB 2*/
+
     // Generate 1 Vertex array object, put the resulting identifier in vertexArrayID
-    glGenVertexArrays(1, &vertexArrayID);glUniformMatrix4fv(location_T, 1, GL_FALSE, T); //Copy the value
+    glGenVertexArrays(1, &vertexArrayID);
+
     // Activate the vertex array object
     glBindVertexArray(vertexArrayID);
 
@@ -173,6 +258,7 @@ int main(int argc, char *argv[]) {
 
     // Deactivate the vertex array object again to be nice
     glBindVertexArray(0);
+
 
     // Show some useful information on the GL context
     cout << "GL vendor:       " << glGetString(GL_VENDOR) << endl;
@@ -187,13 +273,18 @@ int main(int argc, char *argv[]) {
     location_time = glGetUniformLocation(myShader.programID, "time");
     location_M = glGetUniformLocation(myShader.programID, "M");
 
+
     glUseProgram(myShader.programID); //Activate the shader to set its variable
     glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
+
 
     //If the variable is not found, -1 is returned
     if(location_time == -1){
         cout << "Unable to locate variable 'time' in shader!" << endl;
     }
+
+
+   // myShape.createSphere(1.0, 100);
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -215,6 +306,7 @@ int main(int argc, char *argv[]) {
 
         glUseProgram(myShader.programID);//Activate the shader to set its variables
 
+
         glUniform1f(location_time, time); //Copy the value to the shade program
 
 
@@ -224,26 +316,31 @@ int main(int argc, char *argv[]) {
         mat4rotx(V, M_PI/6); // view point angle
         mat4translate(T, 0.5, 0,0);
         mat4roty(R1, time*M_PI/8); //Orbit rotation
-        mat4roty(R2, time*M_PI/2);
+        mat4roty(R2, 100* time*M_PI/2);
 
-        mat4mult(S,M,M);   // scaling the cube
-        mat4mult(R2, M, M); // rotation around own axis
-        mat4mult(T,M,M); // translation to orbit
-        mat4mult(R1,M,M); // orbit rotation
-        mat4mult(V, M, M);
+        mat4mult(V, R1, M);   // scaling the cube
+        mat4mult(M, T, M); // rotation around own axis
+        mat4mult(M, R2,M); // translation to orbit
+        mat4mult(M,S,M); // orbit rotation
 
-        //glEnable(GL_CULL_FACE);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glEnable(GL_CULL_FACE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
 
         // Activate the vertex array object we want to draw (we may have several)
         glBindVertexArray(vertexArrayID);
+
+
         // Draw our triangle with 3 vertices.
         // When the last argument of glDrawElements is NULL, it means
         // "use the previously bound index buffer". (This is not obvious.)
         // The index buffer is part of the VAO state and is bound with it.
         glDrawElements(GL_TRIANGLES, 3*12, GL_UNSIGNED_INT, NULL);
+
+
+
+        //myShape.render();
 
 		// Swap buffers, i.e. display the image and prepare for next frame.
         glfwSwapBuffers(window);
