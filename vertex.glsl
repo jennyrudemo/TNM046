@@ -4,7 +4,7 @@ layout (location = 1) in vec3 Color;
 out vec3 interpolatedColor;
 
 uniform float time;
-uniform mat4 T, R, M;
+uniform mat4 M;
 
 void main () {
    // vec3 addVec = vec3 (0, sin(time), 0);

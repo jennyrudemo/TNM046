@@ -3,7 +3,7 @@ out vec4 finalcolor ;
 in vec3 interpolatedColor;
 
 uniform float time;
-uniform mat4 T;
+uniform mat4 M;
 void main () {
     //vec3 colorChange = vec3(sin(time), sin(time), sin(time));
     //finalcolor = vec4 (interpolatedColor + colorChange, 1.0) ;

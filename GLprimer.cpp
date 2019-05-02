@@ -117,46 +117,14 @@ int main(int argc, char *argv[]) {
 
     };
 
-    double M_PI = 3.14159265358979;
-
     /*Matrices*/
 
     GLfloat M[16]; // final matrix
     GLfloat T[16]; // translation matrix
-    GLfloat R[16]; // rotation matrix
-    GLfloat Ry[16]; // rotation matrix around y axis
+    GLfloat R1[16]; // rotation matrix Orbit
+    GLfloat R2[16]; // rotation matrix around y axis own axis
     GLfloat S[16]; // scaling matrix
-    GLfloat RT[16]; // rotation and translation matrix
-
-    mat4identity(M); // initializing M to identity matrix
-    mat4print(M);  // test
-
-    float v = M_PI/8;
-
-    mat4scale(S, 0.5); //setting scaler
-    //mat4scale(T, 0.5); //setting scaler
-    //mat4rotz(R, v);
-
-    //mat4mult(S, M, M); // scaling M
-
-    //mat4roty(R, M_PI/4); // setting rotation
-    //mat4mult(R, M, M); // rotating M
-
-    mat4print(M);  // test
-
-    //mat4rotz(R, M_PI/2);
-
-    //mat4translate(T,1,2,0);
-
-
-
-	//TEST
-  // mat4mult(R,T, RT);
-    //mat4print(RT);
-//    for (int i = 0; i < 16; i++){
-//        cout << RT[i];
-//        if((i+1)%4 == 0) cout << endl;
-//    }
+    GLfloat V[16]; // rotation of viewpoint
 
 
     // Initialise GLFW
@@ -217,13 +185,9 @@ int main(int argc, char *argv[]) {
     glfwSwapInterval(0); // Do not wait for screen refresh between frames
 
     location_time = glGetUniformLocation(myShader.programID, "time");
-    location_T = glGetUniformLocation(myShader.programID, "T");
-    location_R = glGetUniformLocation(myShader.programID, "R");
     location_M = glGetUniformLocation(myShader.programID, "M");
 
     glUseProgram(myShader.programID); //Activate the shader to set its variable
-    glUniformMatrix4fv(location_T, 1, GL_FALSE, T); //Copy the value
-    glUniformMatrix4fv(location_R, 1, GL_FALSE, R); //Copy the value
     glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
 
     //If the variable is not found, -1 is returned
@@ -253,12 +217,20 @@ int main(int argc, char *argv[]) {
 
         glUniform1f(location_time, time); //Copy the value to the shade program
 
-        mat4rotx(R, time* M_PI/8);
-        mat4roty(Ry, M_PI/6);
-        mat4mult(R, Ry, R);
-        mat4mult(R, S, M); // Multiplicera in skalning och rotation (M ska inte "byggas på")
-        //mat4rotz(M, time * M_PI/8);
-        //mat4rotx(R, time * M_PI/8);
+
+        mat4identity(M); // initializing M to identity matrix
+
+        mat4scale(S, 0.1); //setting scaler
+        mat4rotx(V, M_PI/6); // view point angle
+        mat4translate(T, 0.5, 0,0);
+        mat4roty(R1, time*M_PI/8); //Orbit rotation
+        mat4roty(R2, time*M_PI/2);
+
+        mat4mult(S,M,M);   // scaling the cube
+        mat4mult(R2, M, M); // rotation around own axis
+        mat4mult(T,M,M); // translation to orbit
+        mat4mult(R1,M,M); // orbit rotation
+        mat4mult(V, M, M);
 
         //glEnable(GL_CULL_FACE);
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
