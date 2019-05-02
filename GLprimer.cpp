@@ -83,14 +83,14 @@ int main(int argc, char *argv[]) {
 	GLFWwindow *window;    // GLFW struct to hold information about the window
 
 	Shader myShader;
-	//TriangleSoup myShape;
+	TriangleSoup myShape;
 
 	// Vertex coordinates (x,y,z) for three vertices
     GLuint vertexArrayID, vertexBufferID, indexBufferID, colorBufferIS;
 
 	/*LABB 2*/
 
-
+    /*
     const GLfloat vertex_array_data[] = {
         //First coordinate (0)
         -1.0f, -1.0f, 1.0f,  // 0 side 1, tri 1
@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
 
 
     };
-
+*/
 
 
     /*Matrices*/
@@ -242,7 +242,7 @@ int main(int argc, char *argv[]) {
     //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
 
     /*LABB 2*/
-
+    /*
     // Generate 1 Vertex array object, put the resulting identifier in vertexArrayID
     glGenVertexArrays(1, &vertexArrayID);
 
@@ -258,6 +258,7 @@ int main(int argc, char *argv[]) {
 
     // Deactivate the vertex array object again to be nice
     glBindVertexArray(0);
+    */
 
 
     // Show some useful information on the GL context
@@ -284,7 +285,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-   // myShape.createSphere(1.0, 100);
+   myShape.createSphere(1.0, 100);
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -316,7 +317,7 @@ int main(int argc, char *argv[]) {
         mat4rotx(V, M_PI/6); // view point angle
         mat4translate(T, 0.5, 0,0);
         mat4roty(R1, time*M_PI/8); //Orbit rotation
-        mat4roty(R2, 100* time*M_PI/2);
+        mat4roty(R2, time*M_PI/2);
 
         mat4mult(V, R1, M);   // scaling the cube
         mat4mult(M, T, M); // rotation around own axis
@@ -328,6 +329,7 @@ int main(int argc, char *argv[]) {
 
         glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
 
+        /*
         // Activate the vertex array object we want to draw (we may have several)
         glBindVertexArray(vertexArrayID);
 
@@ -337,10 +339,10 @@ int main(int argc, char *argv[]) {
         // "use the previously bound index buffer". (This is not obvious.)
         // The index buffer is part of the VAO state and is bound with it.
         glDrawElements(GL_TRIANGLES, 3*12, GL_UNSIGNED_INT, NULL);
+        */
 
 
-
-        //myShape.render();
+        myShape.render();
 
 		// Swap buffers, i.e. display the image and prepare for next frame.
         glfwSwapBuffers(window);
