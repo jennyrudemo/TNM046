@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     int width, height;
 	float time;
 
-	GLint location_time, location_M;
+	GLint location_time, location_M, location_R;
 
     const GLFWvidmode *vidmode;  // GLFW struct to hold information about the display
 	GLFWwindow *window;    // GLFW struct to hold information about the window
@@ -199,6 +199,7 @@ int main(int argc, char *argv[]) {
     /*Matrices*/
 
     GLfloat M[16]; // final matrix
+    GLfloat R[16]; //final rotation matrix
     GLfloat T[16]; // translation matrix
     GLfloat R1[16]; // rotation matrix Orbit
     GLfloat R2[16]; // rotation matrix around y axis own axis
@@ -273,10 +274,11 @@ int main(int argc, char *argv[]) {
 
     location_time = glGetUniformLocation(myShader.programID, "time");
     location_M = glGetUniformLocation(myShader.programID, "M");
+    location_R = glGetUniformLocation(myShader.programID, "R");
 
 
     glUseProgram(myShader.programID); //Activate the shader to set its variable
-    glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
+    //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
 
 
     //If the variable is not found, -1 is returned
@@ -285,7 +287,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-   myShape.createSphere(1.0, 100);
+   myShape.createSphere(1.0, 200);
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -312,22 +314,27 @@ int main(int argc, char *argv[]) {
 
 
         mat4identity(M); // initializing M to identity matrix
+        mat4identity(R);
 
-        mat4scale(S, 0.1); //setting scaler
+        mat4scale(S, 0.5); //setting scaler
         mat4rotx(V, M_PI/6); // view point angle
         mat4translate(T, 0.5, 0,0);
         mat4roty(R1, time*M_PI/8); //Orbit rotation
         mat4roty(R2, time*M_PI/2);
 
+        /*
         mat4mult(V, R1, M);   // scaling the cube
         mat4mult(M, T, M); // rotation around own axis
         mat4mult(M, R2,M); // translation to orbit
+        */
+        mat4mult(R2, R, R);
         mat4mult(M,S,M); // orbit rotation
 
         glEnable(GL_CULL_FACE);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
+        glUniformMatrix4fv(location_R, 1, GL_FALSE, R); //Copy the value
 
         /*
         // Activate the vertex array object we want to draw (we may have several)

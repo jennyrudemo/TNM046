@@ -9,11 +9,12 @@ layout(location = 2) in vec2 TexCoord;
 
 out vec3 interpolatedNormal;
 out vec2 st;
+out vec3 lightDirection;
 
 //out vec3 interpolatedColor;
 
 uniform float time;
-uniform mat4 M;
+uniform mat4 M, R;
 
 void main () {
 
@@ -23,8 +24,13 @@ void main () {
     interpolatedColor = Color;
 */
 
-    gl_Postition = M * vec4(Position, 1.0);
-    interpolatedNormal = Normal;
+    vec3 transformedNormal = mat3(M) * Normal;
+    interpolatedNormal = normalize(transformedNormal);
+
+    lightDirection = mat3(R) * vec3(1.0, 0.8, 1.0);
+
+    gl_Position = M * vec4(Position, 1.0);
+    //interpolatedNormal = Normal;
     st = TexCoord;
 
 }

@@ -280,3 +280,76 @@
 	"Shader.hpp"
 	"TriangleSoup.hpp"
 
+1556879413 source:c:\users\jenru723\tnm046\glprimer.cpp
+	<iostream>
+	<cmath>
+	<cstdio>
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	"Shader.hpp"
+	"TriangleSoup.hpp"
+
+1556875874 c:\users\jenru723\tnm046\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1556875874 c:\users\jenru723\tnm046\utilities.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<GL/glext.h>
+
+1556875874 c:\users\jenru723\tnm046\gl\glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1556875874 c:\users\jenru723\tnm046\shader.hpp
+	<GLFW/glfw3.h>
+	"Utilities.hpp"
+	<cstdio>
+
+1556875874 c:\users\jenru723\tnm046\trianglesoup.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cmath>
+	<cstring>
+	"Utilities.hpp"
+
+1556875874 source:c:\users\jenru723\tnm046\shader.cpp
+	"Shader.hpp"
+
+1556875874 source:c:\users\jenru723\tnm046\texture.cpp
+	"Texture.hpp"
+
+1556875874 c:\users\jenru723\tnm046\texture.hpp
+	<GLFW/glfw3.h>
+	<cstdio>
+	<cstring>
+	"Utilities.hpp"
+
+1556875874 source:c:\users\jenru723\tnm046\utilities.cpp
+	"Utilities.hpp"
+
+1556876161 source:c:\users\jenru723\tnm046\rotator.cpp
+	"Rotator.hpp"
+
+1556875874 c:\users\jenru723\tnm046\rotator.hpp
+	<GLFW/glfw3.h>
+	<cmath>
+
+1556876245 source:c:\users\jenru723\tnm046\trianglesoup.cpp
+	"TriangleSoup.hpp"
+

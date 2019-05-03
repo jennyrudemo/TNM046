@@ -15,7 +15,7 @@ TriangleSoup::TriangleSoup() {
 /* Destructor: clean up allocated data in a TriangleSoup object */
 TriangleSoup::~TriangleSoup() {
     clean();
-};
+}
 
 /* Clean up, remembering to de-allocate arrays and GL resources */
 void TriangleSoup::clean() {
@@ -123,7 +123,7 @@ void TriangleSoup::createTriangle() {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-};
+}
 
 
 /* Create a simple box geometry */
@@ -213,7 +213,7 @@ void TriangleSoup::createBox(float xsize, float ysize, float zsize) {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-};
+}
 
 
 /*
@@ -370,7 +370,7 @@ void TriangleSoup::createSphere(float radius, int segments) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-};
+}
 
 
 /*
@@ -585,7 +585,7 @@ void TriangleSoup::readOBJ(const char* filename) {
  	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	return;
-};
+}
 
 /* Print data from a TriangleSoup object, for debugging purposes */
 void TriangleSoup::print() {
@@ -601,7 +601,7 @@ void TriangleSoup::print() {
          printf("%d: %d %d %d\n", i,
          indexarray[3*i], indexarray[3*i+1], indexarray[3*i+2]);
      }
-};
+}
 
 /* Print information about a TriangleSoup object (stats and extents) */
 void TriangleSoup::printInfo() {
@@ -632,7 +632,7 @@ void TriangleSoup::printInfo() {
      printf("ymax: %8.2f\n", ymax);
      printf("zmin: %8.2f\n", zmin);
      printf("zmax: %8.2f\n", zmax);
-};
+}
 
 /* Render the geometry in a TriangleSoup object */
 void TriangleSoup::render() {
@@ -642,7 +642,7 @@ void TriangleSoup::render() {
 	// (mode, vertex count, type, element array buffer offset)
 	glBindVertexArray(0);
 
-};
+}
 
 /*
  * private
@@ -651,4 +651,4 @@ void TriangleSoup::render() {
  */
 void TriangleSoup::printError(const char *errtype, const char *errmsg) {
   fprintf(stderr, "%s: %s\n", errtype, errmsg);
-};
+}

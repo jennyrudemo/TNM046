@@ -4,7 +4,7 @@ void KeyRotator::init(GLFWwindow *window) {
      phi = 0.0;
      theta = 0.0;
      lastTime = glfwGetTime();
-};
+}
 
 void KeyRotator::poll(GLFWwindow *window) {
 
@@ -62,7 +62,7 @@ void MouseRotator::poll(GLFWwindow *window) {
   currentRight = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
   glfwGetWindowSize( window, &windowWidth, &windowHeight );
 
-  if(currentLeft && lastLeft) { // If a left button drag is in progress 
+  if(currentLeft && lastLeft) { // If a left button drag is in progress
     moveX = currentX - lastX;
     moveY = currentY - lastY;
   	phi += M_PI * moveX/windowWidth; // Longest drag rotates 180 degrees
