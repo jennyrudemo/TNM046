@@ -68,6 +68,8 @@ void mat4scale(float M[], float scale);
 
 void mat4translate(float M[], float x, float y, float z);
 
+void mat4perspective(float M[], float vfov, float aspect, float znear, float zfar);
+
 /*
  * main(argc, argv) - the standard C++ entry point for the program
  */
@@ -77,7 +79,7 @@ int main(int argc, char *argv[]) {
     int width, height;
 	float time;
 
-	GLint location_time, location_M, location_R;
+	GLint location_time, location_M, location_R, location_MV, location_P;
 
     const GLFWvidmode *vidmode;  // GLFW struct to hold information about the display
 	GLFWwindow *window;    // GLFW struct to hold information about the window
@@ -93,44 +95,44 @@ int main(int argc, char *argv[]) {
     /*
     const GLfloat vertex_array_data[] = {
         //First coordinate (0)
-        -1.0f, -1.0f, 1.0f,  // 0 side 1, tri 1
-        -1.0f, -1.0f, 1.0f, // 1 side 4, tri 7
-        -1.0f, -1.0f, 1.0f, //2 side 5, tri 9/10
+        -1.0f, -1.0f, 1.0f,  // 0 side 1, tri 0
+        -1.0f, -1.0f, 1.0f, // 1 side 4, tri 6
+        -1.0f, -1.0f, 1.0f, //2 side 5, tri 8/9
 
         //Second coordinate (1)
-        1.0f, -1.0f, 1.0f,  // 3 side 1, tri 1/2
-        1.0f, -1.0f, 1.0f,  //4 side 4, tri 8
-        1.0f, -1.0f, 1.0f,  //5 side 6, tri 11
+        1.0f, -1.0f, 1.0f,  // 3 side 1, tri 0/1
+        1.0f, -1.0f, 1.0f,  //4 side 4, tri 7
+        1.0f, -1.0f, 1.0f,  //5 side 6, tri 10
 
         //Third coordinate (2)
-        1.0f,  1.0f, 1.0f,   //6 side 1, tri 2
-        1.0f,  1.0f, 1.0f,  //7 side 2, tri 3/4
-        1.0f,  1.0f, 1.0f, //8 side 6, tri 11/12
+        1.0f,  1.0f, 1.0f,   //6 side 1, tri 1
+        1.0f,  1.0f, 1.0f,  //7 side 2, tri 2/3
+        1.0f,  1.0f, 1.0f, //8 side 6, tri 10/11
 
         //Fourth coordinate (3)
-        -1.0f, 1.0f, 1.0f,   // 9 side 1, tri 1/2
-        -1.0f, 1.0f, 1.0f,  //10 side 2, tri 3
-        -1.0f, 1.0f, 1.0f,  //11 side 5, tri 10
+        -1.0f, 1.0f, 1.0f,   // 9 side 1, tri 0/1
+        -1.0f, 1.0f, 1.0f,  //10 side 2, tri 2
+        -1.0f, 1.0f, 1.0f,  //11 side 5, tri 9
 
         //Fifth coordinate (4)
-        1.0f, 1.0f, -1.0f,  // 12 side 2, tri 4
-        1.0f, 1.0f, -1.0f,  //13 side 3, tri 5/6
-        1.0f, 1.0f, -1.0f,  //14 side 6, tri 12
+        1.0f, 1.0f, -1.0f,  // 12 side 2, tri 3
+        1.0f, 1.0f, -1.0f,  //13 side 3, tri 4/5
+        1.0f, 1.0f, -1.0f,  //14 side 6, tri 11
 
         //Sixth coordinate (5)
-        -1.0f, 1.0f, -1.0f,  // 15 side 2, tri 3/4
-        -1.0f, 1.0f, -1.0f, //16 side 3, tri 5
-        -1.0f, 1.0f, -1.0f, //17 side 5, tri 9/10
+        -1.0f, 1.0f, -1.0f,  // 15 side 2, tri 2/3
+        -1.0f, 1.0f, -1.0f, //16 side 3, tri 4
+        -1.0f, 1.0f, -1.0f, //17 side 5, tri 8/9
 
         //Seventh coordinate (6)
-        1.0f, -1.0f, -1.0f, // 18 side 3, tri 6
-        1.0f, -1.0f, -1.0f, //19 side 4, tri 7/8
-        1.0f, -1.0f, -1.0f, //20 side 6, tri 11/12
+        1.0f, -1.0f, -1.0f, // 18 side 3, tri 5
+        1.0f, -1.0f, -1.0f, //19 side 4, tri 6/7
+        1.0f, -1.0f, -1.0f, //20 side 6, tri 10/11
 
         //Eighth coordinate (7)
-        -1.0f, -1.0f, -1.0f, // 21 side 3, tri 5/6
-        -1.0f, -1.0f, -1.0f, //22 side 4, tri 7
-        -1.0f, -1.0f, -1.0f //23 side 5, tri 9
+        -1.0f, -1.0f, -1.0f, // 21 side 3, tri 4/5
+        -1.0f, -1.0f, -1.0f, //22 side 4, tri 6
+        -1.0f, -1.0f, -1.0f //23 side 5, tri 8
     };
     const GLfloat color_array_data[] = {
        1.0f, 0.0f, 0.0f,  // Red - side 1
@@ -198,13 +200,15 @@ int main(int argc, char *argv[]) {
 
     /*Matrices*/
 
-    GLfloat M[16]; // final matrix
+    //GLfloat M[16]; // final matrix
     GLfloat R[16]; //final rotation matrix
     GLfloat T[16]; // translation matrix
     GLfloat R1[16]; // rotation matrix Orbit
     GLfloat R2[16]; // rotation matrix around y axis own axis
     GLfloat S[16]; // scaling matrix
     GLfloat V[16]; // rotation of viewpoint
+    GLfloat MV[16];
+    GLfloat P[16];
 
 
     // Initialise GLFW
@@ -273,9 +277,10 @@ int main(int argc, char *argv[]) {
     glfwSwapInterval(0); // Do not wait for screen refresh between frames
 
     location_time = glGetUniformLocation(myShader.programID, "time");
-    location_M = glGetUniformLocation(myShader.programID, "M");
+    //location_M = glGetUniformLocation(myShader.programID, "M");
     location_R = glGetUniformLocation(myShader.programID, "R");
-
+    location_MV = glGetUniformLocation(myShader.programID, "MV");
+    location_P = glGetUniformLocation(myShader.programID, "P");
 
     glUseProgram(myShader.programID); //Activate the shader to set its variable
     //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
@@ -287,7 +292,8 @@ int main(int argc, char *argv[]) {
     }
 
 
-   myShape.createSphere(1.0, 200);
+   //myShape.createSphere(1.0, 200);
+    myShape.createBox(0.2,0.2,1.0);
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -313,28 +319,38 @@ int main(int argc, char *argv[]) {
         glUniform1f(location_time, time); //Copy the value to the shade program
 
 
-        mat4identity(M); // initializing M to identity matrix
+        //mat4identity(M); // initializing M to identity matrix
         mat4identity(R);
+        mat4identity(P);
+        mat4identity(MV);
 
         mat4scale(S, 0.5); //setting scaler
-        mat4rotx(V, M_PI/6); // view point angle
-        mat4translate(T, 0.5, 0,0);
+        mat4rotx(V, M_PI/10); // view point angle
+        mat4translate(T, 0.0, 0.0, -3.0);
         mat4roty(R1, time*M_PI/8); //Orbit rotation
         mat4roty(R2, time*M_PI/2);
+        mat4perspective(P, M_PI/4, 1, 0.1, 100.0);
 
         /*
         mat4mult(V, R1, M);   // scaling the cube
         mat4mult(M, T, M); // rotation around own axis
         mat4mult(M, R2,M); // translation to orbit
         */
-        mat4mult(R2, R, R);
-        mat4mult(M,S,M); // orbit rotation
+        mat4mult(R2, R, R); //Only for lighting
 
-        glEnable(GL_CULL_FACE);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-        glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
+        mat4mult(T, V, MV);//Rotation around y-axis
+        mat4mult(MV, R1, MV);
+
+
+
+        //glEnable(GL_CULL_FACE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+        //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
         glUniformMatrix4fv(location_R, 1, GL_FALSE, R); //Copy the value
+        glUniformMatrix4fv(location_MV, 1, GL_FALSE, MV); //Copy the value
+        glUniformMatrix4fv(location_P, 1, GL_FALSE, P); //Copy the value
 
         /*
         // Activate the vertex array object we want to draw (we may have several)
@@ -599,5 +615,34 @@ void mat4translate(float M[], float x, float y, float z){
     M[13] = y;
     M[14] = z;
     M[15] = 1.0f;
+}
+
+// M is the matrix we want to create (an output argument )
+// vfov is the vertical field of view (in the y direction )
+// aspect is the aspect ratio of the viewport ( width / height )
+// znear is the distance to the near clip plane ( znear > 0)
+// zfar is the distance to the far clip plane ( zfar > znear
+void mat4perspective(float M[], float vfov, float aspect, float znear, float zfar){
+    float f = cos(vfov/2)/sin(vfov/2);
+
+    M[0] = f/aspect;
+    M[1] = 0.0f;
+    M[2] = 0.0f;
+    M[3] = 0.0f;
+
+    M[4] = 0.0f;
+    M[5] = f;
+    M[6] = 0.0f;
+    M[7] = 0.0f;
+
+    M[8] = 0.0f;
+    M[9] = 0.0f;
+    M[10] = -(zfar + znear)/(zfar-znear);
+    M[11] = -1.0f;
+
+    M[12] = 0.0f;
+    M[13] = 0.0f;
+    M[14] = -(2*znear*zfar)/(zfar-znear);
+    M[15] = 0.0f;
 }
 
