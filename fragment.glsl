@@ -8,10 +8,13 @@ in vec3 lightDirection;
 
 uniform float time;
 uniform mat4 M, R;
+uniform sampler2D tex;
 void main () {
     //finalcolor = vec4 (interpolatedColor, 1.0) ;
     //float shading = dot(interpolatedNormal, normalize(lightDirection));
     //shading = max(0.0, shading);
+
+    /* LABB 4
 
     vec3 V = vec3(0.0, 0.0, 1.0);
     V = normalize(V);
@@ -47,5 +50,9 @@ void main () {
     if(dotNL == 0.0) dotRV = 0.0;
     vec3 shadedcolor = Ia*ka + Id*kd *dotNL + Is*ks *pow(dotRV, n);
     finalcolor = vec4 (shadedcolor, 1.0);
+
+    */
+
+    finalcolor = texture(tex, st);
 }
 

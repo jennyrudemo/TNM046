@@ -46,6 +46,7 @@
 #include "Utilities.hpp"
 #include "Shader.hpp"
 #include "TriangleSoup.hpp"
+#include "Texture.hpp"
 
 //FUNCTION DECLERATION//
 void createVertexBuffer(int location, int dimensions, const float *data, int datasize);
@@ -79,7 +80,9 @@ int main(int argc, char *argv[]) {
     int width, height;
 	float time;
 
-	GLint location_time, location_M, location_R, location_MV, location_P;
+	Texture myTexture;
+
+	GLint location_time, location_M, location_R, location_MV, location_P, location_tex;
 
     const GLFWvidmode *vidmode;  // GLFW struct to hold information about the display
 	GLFWwindow *window;    // GLFW struct to hold information about the window
@@ -281,6 +284,7 @@ int main(int argc, char *argv[]) {
     location_R = glGetUniformLocation(myShader.programID, "R");
     location_MV = glGetUniformLocation(myShader.programID, "MV");
     location_P = glGetUniformLocation(myShader.programID, "P");
+    location_tex = glGetUniformLocation(myShader.programID, "tex"); // Locate the sampler2D uniform in the shader program
 
     glUseProgram(myShader.programID); //Activate the shader to set its variable
     //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
@@ -292,8 +296,11 @@ int main(int argc, char *argv[]) {
     }
 
 
-   //myShape.createSphere(1.0, 200);
-    myShape.createBox(0.2,0.2,1.0);
+   myShape.createSphere(1.0, 200);
+    //myShape.createBox(0.2,0.2,1.0);
+
+    // Generate one texture object with data from a TGA file
+    myTexture.createTexture("textures/trex.tga");
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -315,9 +322,10 @@ int main(int argc, char *argv[]) {
 
         glUseProgram(myShader.programID);//Activate the shader to set its variables
 
+        glBindTexture(GL_TEXTURE_2D, myTexture.textureID);
 
         glUniform1f(location_time, time); //Copy the value to the shade program
-
+        glUniform1i(location_tex, 0);
 
         //mat4identity(M); // initializing M to identity matrix
         mat4identity(R);
@@ -344,8 +352,8 @@ int main(int argc, char *argv[]) {
 
 
 
-        //glEnable(GL_CULL_FACE);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glEnable(GL_CULL_FACE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
         glUniformMatrix4fv(location_R, 1, GL_FALSE, R); //Copy the value
@@ -366,6 +374,8 @@ int main(int argc, char *argv[]) {
 
 
         myShape.render();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glUseProgram(0);
 
 		// Swap buffers, i.e. display the image and prepare for next frame.
         glfwSwapBuffers(window);
