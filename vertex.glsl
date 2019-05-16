@@ -28,7 +28,7 @@ void main () {
     vec3 transformedNormal = mat3(MV) * Normal;
     interpolatedNormal = normalize(transformedNormal);
 
-    lightDirection =  vec3(1.0, 0.8, 1.0);
+    lightDirection = mat3(R) * vec3(1.0, 0.8, 1.0);
 
     gl_Position = P * MV * vec4(Position, 1.0);
     //interpolatedNormal = Normal;

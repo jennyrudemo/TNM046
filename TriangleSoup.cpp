@@ -134,38 +134,38 @@ void TriangleSoup::createBox(float xsize, float ysize, float zsize) {
     // coordinate xyz, normal xyz, texcoords st
     const GLfloat vertex_array_data[] = {
         //0
-        -xsize, -ysize, zsize,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Vertex 0
-        -xsize, -ysize, zsize,   0.0f, -1.0f, 0.0f,   0.0f, 0.0f, // Vertex 1
-        -xsize, -ysize, zsize,   -1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // Vertex 2
+        -xsize, -ysize, zsize,   0.0f, 0.0f, 1.0f,   (1.0/4.0), 0.0f, // Vertex 0
+        -xsize, -ysize, zsize,   0.0f, -1.0f, 0.0f,   1.0f, (1.0/3.0), // Vertex 1
+        -xsize, -ysize, zsize,   -1.0f, 0.0f, 0.0f,   0.0f, (1.0/3.0), // Vertex 2
 
         //1
-         xsize, -ysize, zsize,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Vertex 3
-         xsize, -ysize, zsize,   0.0f, -1.0f, 0.0f,   0.0f, 0.0f, // Vertex 4
-         xsize, -ysize, zsize,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // Vertex 5
+         xsize, -ysize, zsize,   0.0f, 0.0f, 1.0f,   (1.0/2.0), 0.0f, // Vertex 3
+         xsize, -ysize, zsize,   0.0f, -1.0f, 0.0f,   (3.0/4.0),(1.0/3.0), // Vertex 4
+         xsize, -ysize, zsize,   1.0f, 0.0f, 0.0f,   (3.0/4.0),(1.0/3.0) , // Vertex 5
         //2
-         xsize,  ysize, zsize,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,  // Vertex 6
-         xsize,  ysize, zsize,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,  // Vertex 7
-         xsize,  ysize, zsize,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Vertex 8
+         xsize,  ysize, zsize,   0.0f, 0.0f, 1.0f,   (1.0/2.0), (1.0/3.0),  // Vertex 6
+         xsize,  ysize, zsize,   0.0f, 1.0f, 0.0f,   (1.0/2.0), (1.0/3.0),  // Vertex 7
+         xsize,  ysize, zsize,   1.0f, 0.0f, 0.0f,   (1.0/2.0), (1.0/3.0),  // Vertex 8
         //3
-         -xsize,  ysize, zsize,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,  // Vertex 9
-         -xsize,  ysize, zsize,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,  // Vertex 10
-         -xsize,  ysize, zsize,   -1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Vertex 11
+         -xsize,  ysize, zsize,   0.0f, 0.0f, 1.0f,   (1.0/4.0), (1.0/3.0),  // Vertex 9
+         -xsize,  ysize, zsize,   0.0f, 1.0f, 0.0f,   (1.0/4.0), (1.0/3.0),  // Vertex 10
+         -xsize,  ysize, zsize,   -1.0f, 0.0f, 0.0f,   (1.0/4.0), (1.0/3.0),  // Vertex 11
         //4
-         xsize, ysize,  -zsize,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f, // Vertex 12
-         xsize, ysize,  -zsize,   0.0f, 0.0f, -1.0f,   0.0f, 0.0f, // Vertex 13
-         xsize, ysize,  -zsize,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // Vertex 14
+         xsize, ysize,  -zsize,   0.0f, 1.0f, 0.0f,  (1.0/2.0), (2.0/3.0), // Vertex 12
+         xsize, ysize,  -zsize,   0.0f, 0.0f, -1.0f,  (1.0/2.0), (2.0/3.0), // Vertex 13
+         xsize, ysize,  -zsize,   1.0f, 0.0f, 0.0f,   (1.0/2.0), (2.0/3.0), // Vertex 14
         //5
-         -xsize, ysize,  -zsize,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f, // Vertex 15
-         -xsize, ysize,  -zsize,   0.0f, 0.0f, -1.0f,   0.0f, 0.0f, // Vertex 16
-         -xsize, ysize,  -zsize,   -1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // Vertex 17
+         -xsize, ysize,  -zsize,   0.0f, 1.0f, 0.0f,   (1.0/4.0), (2.0/3.0), // Vertex 15
+         -xsize, ysize,  -zsize,   0.0f, 0.0f, -1.0f,   (1.0/4.0), (2.0/3.0), // Vertex 16
+         -xsize, ysize,  -zsize,   -1.0f, 0.0f, 0.0f,   (1.0/4.0), (2.0/3.0), // Vertex 17
         //6
-         xsize,  -ysize,  -zsize,   0.0f, 0.0f, -1.0f,   0.0f, 0.0f,  // Vertex 18
-         xsize,  -ysize,  -zsize,   0.0f, -1.0f, 0.0f,   0.0f, 0.0f,  // Vertex 19
-         xsize,  -ysize,  -zsize,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,  // Vertex 20
+         xsize,  -ysize,  -zsize,   0.0f, 0.0f, -1.0f,   (1.0/2.0), 1.0f,  // Vertex 18
+         xsize,  -ysize,  -zsize,   0.0f, -1.0f, 0.0f,   (3.0/4.0), (2.0/3.0),  // Vertex 19
+         xsize,  -ysize,  -zsize,   1.0f, 0.0f, 0.0f,   (3.0/4.0), (2.0/3.0),  // Vertex 20
         //7
-         -xsize,  -ysize,  -zsize,   0.0f, 0.0f, -1.0f,   0.0f, 0.0f,  // Vertex 21
-         -xsize,  -ysize,  -zsize,   0.0f, -1.0f, 0.0f,   0.0f, 0.0f, // Vertex 22
-         -xsize,  -ysize,  -zsize,   -1.0f, 0.0f, 0.0f,   0.0f, 0.0f  // Vertex 23
+         -xsize,  -ysize,  -zsize,   0.0f, 0.0f, -1.0f,   (1.0/4.0), 1.0f,  // Vertex 21
+         -xsize,  -ysize,  -zsize,   0.0f, -1.0f, 0.0f,   1.0f, (2.0/3.0), // Vertex 22
+         -xsize,  -ysize,  -zsize,   -1.0f, 0.0f, 0.0f,   0.0f, (2.0/3.0)  // Vertex 23
 
     };
     const GLuint index_array_data[] = {

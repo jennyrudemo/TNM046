@@ -14,7 +14,7 @@ void main () {
     //float shading = dot(interpolatedNormal, normalize(lightDirection));
     //shading = max(0.0, shading);
 
-    /* LABB 4
+
 
     vec3 V = vec3(0.0, 0.0, 1.0);
     V = normalize(V);
@@ -22,10 +22,10 @@ void main () {
     vec3 N = normalize(interpolatedNormal);
 
     vec3 Ia = vec3(0.5, 0.5, 0.5);
-    vec3 ka = vec3(0.5, 0.0, 0.0);
+    vec3 ka = vec3(0.0, 0.0, 0.0);
     vec3 Id = vec3(1.0, 1.0, 1.0);
-    vec3 kd = vec3(0.5, 0.0, 0.0);
-    vec3 Is = vec3(1.0, 1.0, 1.0);
+    vec3 kd = vec3(texture(tex,st));
+    vec3 Is = vec3(0.5, 0.5, 0.5);
     vec3 ks = vec3(1.0, 1.0, 1.0);
 
     float n = 10.0;
@@ -51,8 +51,8 @@ void main () {
     vec3 shadedcolor = Ia*ka + Id*kd *dotNL + Is*ks *pow(dotRV, n);
     finalcolor = vec4 (shadedcolor, 1.0);
 
-    */
 
-    finalcolor = texture(tex, st);
+
+    //finalcolor = texture(tex, st);
 }
 

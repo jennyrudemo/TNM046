@@ -47,6 +47,7 @@
 #include "Shader.hpp"
 #include "TriangleSoup.hpp"
 #include "Texture.hpp"
+#include "Rotator.hpp"
 
 //FUNCTION DECLERATION//
 void createVertexBuffer(int location, int dimensions, const float *data, int datasize);
@@ -80,7 +81,9 @@ int main(int argc, char *argv[]) {
     int width, height;
 	float time;
 
-	Texture myTexture;
+	Texture myTexture, sphereTexture;
+	KeyRotator myKeyRotator;
+	MouseRotator myMouseRotator;
 
 	GLint location_time, location_M, location_R, location_MV, location_P, location_tex;
 
@@ -89,116 +92,11 @@ int main(int argc, char *argv[]) {
 
 	Shader myShader;
 	TriangleSoup myShape;
+    TriangleSoup mySphere;
 
 	// Vertex coordinates (x,y,z) for three vertices
     GLuint vertexArrayID, vertexBufferID, indexBufferID, colorBufferIS;
 
-	/*LABB 2*/
-
-    /*
-    const GLfloat vertex_array_data[] = {
-        //First coordinate (0)
-        -1.0f, -1.0f, 1.0f,  // 0 side 1, tri 0
-        -1.0f, -1.0f, 1.0f, // 1 side 4, tri 6
-        -1.0f, -1.0f, 1.0f, //2 side 5, tri 8/9
-
-        //Second coordinate (1)
-        1.0f, -1.0f, 1.0f,  // 3 side 1, tri 0/1
-        1.0f, -1.0f, 1.0f,  //4 side 4, tri 7
-        1.0f, -1.0f, 1.0f,  //5 side 6, tri 10
-
-        //Third coordinate (2)
-        1.0f,  1.0f, 1.0f,   //6 side 1, tri 1
-        1.0f,  1.0f, 1.0f,  //7 side 2, tri 2/3
-        1.0f,  1.0f, 1.0f, //8 side 6, tri 10/11
-
-        //Fourth coordinate (3)
-        -1.0f, 1.0f, 1.0f,   // 9 side 1, tri 0/1
-        -1.0f, 1.0f, 1.0f,  //10 side 2, tri 2
-        -1.0f, 1.0f, 1.0f,  //11 side 5, tri 9
-
-        //Fifth coordinate (4)
-        1.0f, 1.0f, -1.0f,  // 12 side 2, tri 3
-        1.0f, 1.0f, -1.0f,  //13 side 3, tri 4/5
-        1.0f, 1.0f, -1.0f,  //14 side 6, tri 11
-
-        //Sixth coordinate (5)
-        -1.0f, 1.0f, -1.0f,  // 15 side 2, tri 2/3
-        -1.0f, 1.0f, -1.0f, //16 side 3, tri 4
-        -1.0f, 1.0f, -1.0f, //17 side 5, tri 8/9
-
-        //Seventh coordinate (6)
-        1.0f, -1.0f, -1.0f, // 18 side 3, tri 5
-        1.0f, -1.0f, -1.0f, //19 side 4, tri 6/7
-        1.0f, -1.0f, -1.0f, //20 side 6, tri 10/11
-
-        //Eighth coordinate (7)
-        -1.0f, -1.0f, -1.0f, // 21 side 3, tri 4/5
-        -1.0f, -1.0f, -1.0f, //22 side 4, tri 6
-        -1.0f, -1.0f, -1.0f //23 side 5, tri 8
-    };
-    const GLfloat color_array_data[] = {
-       1.0f, 0.0f, 0.0f,  // Red - side 1
-       1.0f, 0.0f, 1.0f,    // Purple - side 4
-       0.0f, 1.0f, 1.0f,    // Teal - side 5
-
-       1.0f, 0.0f, 0.0f,  // Red - side 1
-       1.0f, 0.0f, 1.0f,    // Purple - side 4
-       0.0f, 1.0f, 0.0f,  // Green - side 6
-
-       1.0f, 0.0f, 0.0f,  // Red - side 1
-       0.0f, 0.0f, 1.0f,  // Blue - side 2
-       0.0f, 1.0f, 0.0f,  // Green - side 6
-
-       1.0f, 0.0f, 0.0f,  // Red - side 1
-       0.0f, 0.0f, 1.0f,  // Blue - side 2
-       0.0f, 1.0f, 1.0f,    // Teal - side 5
-
-       0.0f, 0.0f, 1.0f,  // Blue - side 2
-       1.0f, 1.0f, 0.0f,    //Brown? - side 3
-       0.0f, 1.0f, 0.0f,  // Green - side 6
-
-       0.0f, 0.0f, 1.0f,  // Blue - side 2
-       1.0f, 1.0f, 0.0f,    //Yellow - side 3
-       0.0f, 1.0f, 1.0f,    // Teal - side 5
-
-       1.0f, 1.0f, 0.0f,    //Yellow- side 3
-       1.0f, 0.0f, 1.0f,    // Purple - side 4
-       0.0f, 1.0f, 0.0f,  // Green - side 6
-
-       1.0f, 1.0f, 0.0f,    //Yellow - side 3
-       1.0f, 0.0f, 1.0f,    // Purple - side 4
-       0.0f, 1.0f, 1.0f    // Teal - side 5
-
-    };
-    const GLuint index_array_data[] = {
-        //First side
-        0,3,9,  // First triangle
-        3,6,9,  // Second triangle
-
-        //Second side
-        7,15,10,  // Third triangle
-        7,12,15,  // Fourth triangle
-
-        //Third side
-        13,21,16,  // Fifth triangle
-        13,18,21,  // Sixth triangle
-
-        //Fourth side
-        1,22,19,  // Seventh triangle
-        1,19,4,  // Eighth triangle
-
-        //Fifth side
-        2,17,23,  // Ninth triangle
-        2,11,17,  // Tenth triangle
-
-        //Sixth triangle
-        5,20,8,  // Eleventh triangle
-        8,20,14   // Twelfth triangle
-
-
-    };
-*/
 
 
     /*Matrices*/
@@ -208,10 +106,13 @@ int main(int argc, char *argv[]) {
     GLfloat T[16]; // translation matrix
     GLfloat R1[16]; // rotation matrix Orbit
     GLfloat R2[16]; // rotation matrix around y axis own axis
+    GLfloat Rx[16]; // rotation depending on key rotation
+    GLfloat Ry[16]; // rotation depending on mouse rotation
     GLfloat S[16]; // scaling matrix
     GLfloat V[16]; // rotation of viewpoint
     GLfloat MV[16];
     GLfloat P[16];
+    GLfloat T2[16];
 
 
     // Initialise GLFW
@@ -240,34 +141,12 @@ int main(int argc, char *argv[]) {
     // (This step is strictly required, or things will simply not work)
     glfwMakeContextCurrent(window);
 
-
-
     // Load extensions (only needed in Microsoft Windows)
     Utilities::loadExtensions();
 
     myShader.createShader("vertex.glsl", "fragment.glsl");
 
     //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
-
-    /*LABB 2*/
-    /*
-    // Generate 1 Vertex array object, put the resulting identifier in vertexArrayID
-    glGenVertexArrays(1, &vertexArrayID);
-
-    // Activate the vertex array object
-    glBindVertexArray(vertexArrayID);
-
-    // Create the vertex buffer objects for attribute locations 0 and 1
-    // (the list of vertex coordinates and the list of vertex colors).
-    createVertexBuffer(0, 3, vertex_array_data, sizeof(vertex_array_data));
-    createVertexBuffer(1, 3, color_array_data, sizeof(color_array_data));
-    // Create the index buffer object (the list of triangles).
-    createIndexBuffer(index_array_data, sizeof(index_array_data));
-
-    // Deactivate the vertex array object again to be nice
-    glBindVertexArray(0);
-    */
-
 
     // Show some useful information on the GL context
     cout << "GL vendor:       " << glGetString(GL_VENDOR) << endl;
@@ -287,20 +166,24 @@ int main(int argc, char *argv[]) {
     location_tex = glGetUniformLocation(myShader.programID, "tex"); // Locate the sampler2D uniform in the shader program
 
     glUseProgram(myShader.programID); //Activate the shader to set its variable
-    //glUniformMatrix4fv(location_M, 1, GL_FALSE, M); //Copy the value
-
 
     //If the variable is not found, -1 is returned
     if(location_time == -1){
         cout << "Unable to locate variable 'time' in shader!" << endl;
     }
 
+    myKeyRotator.init(window);
+    myMouseRotator.init(window);
 
-   myShape.createSphere(1.0, 200);
-    //myShape.createBox(0.2,0.2,1.0);
 
+    mySphere.createSphere(1.0, 200);
+    //myShape.createBox(1.0,1.0,1.0);
+    myShape.readOBJ("meshes/trex.obj");
     // Generate one texture object with data from a TGA file
     myTexture.createTexture("textures/trex.tga");
+    sphereTexture.createTexture("textures/earth.tga");
+
+    glEnable(GL_DEPTH_TEST);
 
     // Main loop
     while(!glfwWindowShouldClose(window))
@@ -327,10 +210,22 @@ int main(int argc, char *argv[]) {
         glUniform1f(location_time, time); //Copy the value to the shade program
         glUniform1i(location_tex, 0);
 
+        myKeyRotator.poll(window);
+        myMouseRotator.poll(window);
+
         //mat4identity(M); // initializing M to identity matrix
         mat4identity(R);
         mat4identity(P);
         mat4identity(MV);
+
+
+        mat4rotx(Rx, myMouseRotator.theta);
+        mat4roty(Ry, myMouseRotator.phi);
+        mat4mult(Rx,Ry,R);
+
+
+        mat4rotx(Rx, -myKeyRotator.theta);
+        mat4roty(Ry, myKeyRotator.phi);
 
         mat4scale(S, 0.5); //setting scaler
         mat4rotx(V, M_PI/10); // view point angle
@@ -339,17 +234,9 @@ int main(int argc, char *argv[]) {
         mat4roty(R2, time*M_PI/2);
         mat4perspective(P, M_PI/4, 1, 0.1, 100.0);
 
-        /*
-        mat4mult(V, R1, M);   // scaling the cube
-        mat4mult(M, T, M); // rotation around own axis
-        mat4mult(M, R2,M); // translation to orbit
-        */
-        mat4mult(R2, R, R); //Only for lighting
-
-
-        mat4mult(T, V, MV);//Rotation around y-axis
-        mat4mult(MV, R1, MV);
-
+        mat4mult(T, Rx, MV);//Rotation around y-axis
+        mat4mult(MV, Ry, MV);
+        mat4mult(MV, V, MV);
 
 
         glEnable(GL_CULL_FACE);
@@ -360,20 +247,36 @@ int main(int argc, char *argv[]) {
         glUniformMatrix4fv(location_MV, 1, GL_FALSE, MV); //Copy the value
         glUniformMatrix4fv(location_P, 1, GL_FALSE, P); //Copy the value
 
-        /*
-        // Activate the vertex array object we want to draw (we may have several)
-        glBindVertexArray(vertexArrayID);
-
-
-        // Draw our triangle with 3 vertices.
-        // When the last argument of glDrawElements is NULL, it means
-        // "use the previously bound index buffer". (This is not obvious.)
-        // The index buffer is part of the VAO state and is bound with it.
-        glDrawElements(GL_TRIANGLES, 3*12, GL_UNSIGNED_INT, NULL);
-        */
-
 
         myShape.render();
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glBindTexture(GL_TEXTURE_2D, sphereTexture.textureID);
+        glUniform1i(location_tex, 0);
+
+        mat4identity(MV);
+        mat4identity(T2);
+
+        mat4scale(S, 0.2); //setting scaler
+        mat4rotx(V, M_PI/10); // view point angle
+        mat4translate(T, 0.0, 0.0, -3.0);
+        mat4roty(R1, time*M_PI/3); //Orbit rotation
+        mat4translate(T2, 1.0, 0.0, 0.0);
+
+        mat4mult(T, V, MV);//Rotation around y-axis
+        mat4mult(MV,R1,MV);
+        //mat4mult(MV, R1, MV);
+        mat4mult(MV, T2, MV);
+        mat4mult(MV,R2,MV);
+        mat4mult(MV, S, MV);
+
+        //glUniformMatrix4fv(location_R, 1, GL_FALSE, R); //Copy the value
+        glUniformMatrix4fv(location_MV, 1, GL_FALSE, MV); //Copy the value
+        //glUniformMatrix4fv(location_P, 1, GL_FALSE, P); //Copy the value
+
+        mySphere.render();
+
+
         glBindTexture(GL_TEXTURE_2D, 0);
         glUseProgram(0);
 
@@ -431,26 +334,6 @@ void createIndexBuffer(const unsigned int *data, int datasize) {
 
 void mat4mult(float M1[], float M2[], float Mout[]){
     float Mtemp[16];
-//        Mtemp[0] = M1[0]*M2[0] + M1[1]* M2[4] + M1[2]*M2[8] + M1[3]* M2[12];
-//        Mtemp[1] = M1[0]*M2[1] + M1[1]* M2[5] + M1[2]*M2[9] + M1[3]* M2[13];
-//        Mtemp[2] = M1[0]*M2[2] + M1[1]* M2[6] + M1[2]*M2[10] + M1[3]* M2[14];
-//        Mtemp[3] = M1[0]*M2[3] + M1[1]* M2[7] + M1[2]*M2[11] + M1[3]* M2[15];
-//
-//        Mtemp[4] = M1[4]*M2[0] + M1[5]* M2[4] + M1[6]*M2[8] + M1[7]* M2[12];
-//        Mtemp[5] = M1[4]*M2[1] + M1[5]* M2[5] + M1[6]*M2[9] + M1[7]* M2[13];
-//        Mtemp[6] = M1[4]*M2[2] + M1[5]* M2[6] + M1[6]*M2[10] + M1[7]* M2[14];
-//        Mtemp[7] = M1[4]*M2[3] + M1[5]* M2[7] + M1[6]*M2[11] + M1[7]* M2[15];
-//
-//        Mtemp[8] = M1[8]*M2[0] + M1[9]* M2[4] + M1[10]*M2[8] + M1[11]* M2[12];
-//        Mtemp[9] = M1[8]*M2[1] + M1[9]* M2[5] + M1[10]*M2[9] + M1[11]* M2[13];
-//        Mtemp[10] = M1[8]*M2[2] + M1[9]* M2[6] + M1[10]*M2[10] + M1[11]* M2[14];
-//        Mtemp[11] = M1[8]*M2[3] + M1[9]* M2[7] + M1[10]*M2[11] + M1[11]* M2[15];
-//
-//        Mtemp[12] = M1[12]*M2[0] + M1[13]* M2[4] + M1[14]*M2[8] + M1[15]* M2[12];
-//        Mtemp[13] = M1[12]*M2[1] + M1[13]* M2[5] + M1[14]*M2[9] + M1[15]* M2[13];
-//        Mtemp[14] = M1[12]*M2[2] + M1[13]* M2[6] + M1[14]*M2[10] + M1[15]* M2[14];
-//        Mtemp[15] = M1[12]*M2[3] + M1[13]* M2[7] + M1[14]*M2[11] + M1[15]* M2[15];
-
 
     Mtemp[0] = M2[0]*M1[0] + M2[1]* M1[4] + M2[2]*M1[8] + M2[3]* M1[12];
     Mtemp[1] = M2[0]*M1[1] + M2[1]* M1[5] + M2[2]*M1[9] + M2[3]* M1[13];
